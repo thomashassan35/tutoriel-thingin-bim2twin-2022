@@ -74,6 +74,19 @@
 				},
 				{
 					"name": "batchPostavatars TEST TOKEN",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.environment.get(\"yourname\"))\r",
+									"pm.request.body.update(pm.request.body.raw.replace(\"<yourname>\",pm.environment.get(\"yourname\")))\r",
+									"console.log(\"yourname env var has been replaced\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -105,7 +118,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<http://bim2twin.eu/training/example/$yourname>\ta\t<http://purl.oclc.org/NET/ssnx/ssn#Device> .",
+							"raw": "<http://bim2twin.eu/training/example/<yourname>>\ta\t<http://purl.oclc.org/NET/ssnx/ssn#Device> .",
 							"options": {
 								"raw": {
 									"language": "text"
@@ -113,7 +126,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars",
+							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars/",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -123,7 +136,8 @@
 							],
 							"path": [
 								"batch",
-								"avatars"
+								"avatars",
+								""
 							]
 						}
 					},
@@ -301,7 +315,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{blobuuid}",
+							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{{blobuuid}}",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -311,7 +325,7 @@
 							],
 							"path": [
 								"blobs",
-								"{blobuuid}"
+								"{{blobuuid}}"
 							]
 						}
 					},
@@ -355,7 +369,7 @@
 							]
 						},
 						"url": {
-							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{blobuuid}",
+							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{{blobuuid}}",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -365,7 +379,7 @@
 							],
 							"path": [
 								"blobs",
-								"{blobuuid}"
+								"{{blobuuid}}"
 							]
 						}
 					},
@@ -378,6 +392,19 @@
 			"item": [
 				{
 					"name": "singlePostAvatar JSON",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.environment.get(\"yourname\"))\r",
+									"pm.request.body.update(pm.request.body.raw.replace(\"<yourname>\",pm.environment.get(\"yourname\")))\r",
+									"console.log(\"yourname env var has been replaced\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -430,6 +457,19 @@
 				},
 				{
 					"name": "batchPostAvatars TURTLE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.environment.get(\"yourname\"))\r",
+									"pm.request.body.update(pm.request.body.raw.replace(\"<yourname>\",pm.environment.get(\"yourname\")))\r",
+									"console.log(\"yourname env var has been replaced\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -482,6 +522,19 @@
 				},
 				{
 					"name": "batchPostAvatars JSON",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.environment.get(\"yourname\"))\r",
+									"pm.request.body.update(pm.request.body.raw.replace(\"<yourname>\",pm.environment.get(\"yourname\")))\r",
+									"console.log(\"yourname env var has been replaced\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
