@@ -152,8 +152,7 @@ To replace **<yourName>** and complete.
 
 
 <details>
-  <summary>Answer - Something went wrong decoding the body of the Request into a JSON Object: 'set' object has no attribute 'restful'
-Work one by one:</summary>
+  <summary>Answer - :</summary>
   
 ```json
 [
@@ -364,7 +363,7 @@ Swagger:
 In Postman :
 > singlePostAvatar JSON
     
-Add the storey to the building - "Internal error : class java.util.LinkedHashMap cannot be cast to class io.vertx.core.json.JsonArray (java.util.LinkedHashMap is in module java.base of loader 'bootstrap'; io.vertx.core.json.JsonArray is in unnamed module of loader 'app')":
+Add the storey to the building :
 
 First find the "__uuid_" of the building. It's a property of the building's avatar.
 > ex: 0aba42b6-0f4e-55e3-908b-5b1eec1d3f4a
