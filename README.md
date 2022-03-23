@@ -20,7 +20,55 @@ For all elements of this tutorial, and for your future experience with Thing'In 
     * Geographic queries
     * Use Blobs (binary large objects)
     
-  
+    
+## Postman
+
+To go through this hands-on session you can either use a preconfigured set of requests given in a Postman collection, or the swagger interface / thingin portal. 
+
+### Importing the postman collection 
+
+If you choose to use the Postman collection, the import procedure is simple:
+After cloning / downloading this repository, locate the postman collection file (.json) on your system (The collection is located on the github repository under /postman). 
+
+Then, in postman, go to 
+> File -> import
+
+And choose the preconfigured collection.
+
+### Settings up requests in the following sections of the tutorial
+
+In the examples below, when using the swagger/portal you have to replace the variable <yourname> with a string with no spaces or special characters, e.g. "thassan". You have to do this wherever "<yourname>" appears (in the query payloads). 
+	
+When using Postman, you only have to set an environment variable in your Postman Environment **once**:
+Go to
+> Environments
+	
+and add a row : under **VARIABLE**, write **yourname**, and under **CURRENT VALUE**, set it with a string of your choice, the string must have no spaces or special characters, e.g. "thassan".
+
+
+### Setting up connection to ThingIn  
+    
+To setup connection with BIM2TWIN's thingin tipod, first use the credentials provided at the beginning of the session (Teams). 
+
+For Swagger/portal :
+After logging in through the portal, you have to use a TOKEN to use the APIs. This is a simple two-step process
+	- click on Develop (on top) -> Get My Thingin Token -> Copy to clipboard for swagger Usage 
+	- In the swagger interface,  before sending queries, do this step once : click on authorize ->  paster your token under " bearerAuth  (http, Bearer) Thing'in token (without Bearer keyword)"
+	
+	
+In Postman, go to: 
+> get developpper TOKEN. 
+
+You have to fill the Authorization with basic authentication using the credentials, then send the request
+    
+To ensure that the following Postman requests are well configured, go to:
+>batchPostavatars TEST TOKEN
+
+You have to fill in the payload (Body), then send the request. The response code should be a 201. If you have a bad character error, you might not have configured the <yourname> variable. 
+    
+**You don't have todo any additional steps for the other queries to use your credentials, it is filled automatically**
+    
+
 
 ## Creation of the dataset
 
@@ -78,10 +126,14 @@ See examples bellow.
 #### RDF
 Input: 
 
-To replace **<yourName>** and complete.
+Complete the query body by replacing (not necessary in Postman if done previously) :
+```
+<yourname>
+``` 
+
 
 ```rdf
-@prefix ex: <http://bim2twin.eu/training/simpleBuilding/<yourName/> .
+@prefix ex: <http://bim2twin.eu/training/simpleBuilding/<yourname>/> .
 @prefix bot: <https://w3id.org/bot#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -129,21 +181,25 @@ ex:Small_Building rdf:type bot:Building ;
 
 Input:
 
-To replace **<yourName>** and complete.
+Complete the query body by replacing (not necessary in Postman if done previously) :
+```
+<yourname>
+``` 
+
 
 ```json
 [
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourName>/Room_A_1",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_1",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourName>/Small_Building",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Small_Building",
 	"_classes": ["https://w3id.org/bot#Building"],
 	"_outE": [
 	  {
 	    "_label": "https://w3id.org/bot#hasStorey",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourName>/Storey_1"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_1"
 	  }
 	]
   }
@@ -152,7 +208,7 @@ To replace **<yourName>** and complete.
 
 
 <details>
-  <summary>Answer - :</summary>
+  <summary>Answer:</summary>
   
 ```json
 [
@@ -250,23 +306,6 @@ Avatar can be injected one by one:
 Inject several avatars at once:
 > /batch/avatars/
 
-#### Postman
-
-A postman collection can be imported with a preconfigured set of requests. 
-The collection is located on the github repository under /postman. 
-    
-To setup connection with BIM2TWIN's thingin tipod, first use the credentials provided at the beginning of the session (Teams). In Postman, go to: 
-> get developpper TOKEN. 
-
-You have to fill the Authorization with basic authentication using the credentials, then send the request
-    
-To ensure that the following Postman requests are working, go to:
->batchPostavatars TEST TOKEN
-
-You have to fill in the payload (Body) and replace $yourname with your name or a random identifier, then send the request. The response code should be a 201.
-    
-**You don't have todo any additional steps for the other queries to use your credentials, it is filled automatically**
-    
 ## Queries
 
 ### Use the wizard
