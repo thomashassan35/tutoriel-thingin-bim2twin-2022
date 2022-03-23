@@ -1,0 +1,781 @@
+{
+	"info": {
+		"_postman_id": "b2d0f6d8-bfb5-4e02-a414-bfc8d1399975",
+		"name": "BIM2TWIN tutorial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login & Token",
+			"item": [
+				{
+					"name": "get developper TOKEN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"token = pm.response.text();\r",
+									"console.log(token);\r",
+									"pm.environment.set(\"auth\", token);\r",
+									"console.log(pm.environment.get(\"auth\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/auth",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"auth"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchPostavatars TEST TOKEN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/turtle",
+								"type": "text"
+							},
+							{
+								"key": "expire_after",
+								"value": "20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<http://bim2twin.eu/training/example/$yourname>\ta\t<http://purl.oclc.org/NET/ssnx/ssn#Device> .",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"batch",
+								"avatars"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blob",
+			"item": [
+				{
+					"name": "post BLOB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"location = pm.response.headers.get('location');\r",
+									"console.log(location);\r",
+									"console.log(location.substring(location.lastIndexOf('/')+1,location.length));\r",
+									"pm.environment.set(\"blobuuid\", location.substring(location.lastIndexOf('/')+1,location.length));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/qtht9858/Pictures/consul.png"
+								},
+								{
+									"key": "description",
+									"value": "placeholder description",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "example,blob",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"blobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "link BLOB to avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"blob_uuid\": \"{{blobuuid}}\",\r\n  \"avatar_iris\": [\r\n    \"string\"\r\n  ],\r\n  \"avatar_uuids\": [\r\n    \"string\"\r\n  ],\r\n  \"ignore_conflicts\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"batch",
+								"avatars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get BLOB",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{blobuuid}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"blobs",
+								"{blobuuid}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete BLOB",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/blobs/{blobuuid}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"blobs",
+								"{blobuuid}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Avatars Injection",
+			"item": [
+				{
+					"name": "singlePostAvatar JSON",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/avatars/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"avatars",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchPostAvatars TURTLE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/turtle",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"batch",
+								"avatars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchPostAvatars JSON",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/batch/avatars",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"batch",
+								"avatars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update SET",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "password",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/avatars/update/set/{uuid}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"avatars",
+								"update",
+								"set",
+								"{uuid}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Avatars requests",
+			"item": [
+				{
+					"name": "find as TURTLE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/turtle",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/avatars/find/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"avatars",
+								"find",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find as JSON",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/avatars/find/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"avatars",
+								"find",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find AGGREGATE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-turtle",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.thinginthefuture.bim2twin.eu/avatars/findAggregate/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"thinginthefuture",
+								"bim2twin",
+								"eu"
+							],
+							"path": [
+								"avatars",
+								"findAggregate",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
