@@ -335,7 +335,7 @@ Using the swagger or postman collection.
 ```json
 {
   "query": {
-    "$domain": "http://www.bim2twin.com/training/ac20/"
+    "$domain": "http://bim2twin.eu/training/ac20/"
   },
   "view": {}
 }
