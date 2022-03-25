@@ -82,7 +82,12 @@ There exist two types of injector to upload ifc files:
 
 Both injectors can be found under "Provide" > "specific injector".
 
-An example can be found under "Explore" > "Explore Thing'in database".
+To inject an ifc file, first click on "Create a new injection".
+Then you can choose Injector type as detailed aboce.
+The "domain" will be the bucket were your avatars will be injected, and is **must starts with**: "http://bim2twin.eu/"
+> Ex: http://bim2twin.eu/training/ac20/
+
+An example of an injected file can be found under "Explore" > "Explore Thing'in database".
 Select the request "AC20 - Topological injection".
 The original ifc file can be find in:
 > dataset/AC20-FZK-Haus.ifc
@@ -99,13 +104,13 @@ https://w3c-lbd-cg.github.io/bot/
 #### Mandatory properties
 
 Each avatar have two mandatory properties:
-* **__iri_**: the identifier ot the avatar (Inernational Ressource Identifier)
+* **__iri_**: the identifier ot the avatar (Inernational Ressource Identifier). IRIs **must start** with the following prefix: "http://bim2twin.eu/"
 > ex: "__iri_": "http://bim2twin.eu/training/simpleBuilding/Room_A_1"
 
 * **__classes_**: list of ontology classes. The avatar is an instance of each of these classes. An avatar have at least one class
 > ex: "__classes": ["https://w3id.org/bot#Space"]
 
-When avatars are created the are stored in a domain. Domains can be seen as container.
+When avatars are created the are stored in a domain. Domains can be seen as bucket.
 They are created automatically based on the **__iri_** of an avatar.
 For the avatar above the following domain will be created:
 > ex: "__domain":"http://bim2twin.eu/training/simpleBuilding/"
@@ -120,8 +125,11 @@ Using Bot ontology create the following:
 - Link bot:Storey - hasSpace -> bot:Space
 - Linkt bot:Building - hasStorey -> bot:Building
 
-There is two possibles format RDF or JSON.
-See examples bellow.
+There exist two possibles format to build your dataset:
+* RDF (Ressource Description Framework): is a standard from W3C coming from the Semantic Web community to describe a data model.
+* JSON (JavaScript Object Notation): is an open standard file format
+
+See examples bellow of data model both in RDF and JSON to create one building with one storey.
 
 #### RDF
 Input: 
@@ -148,7 +156,7 @@ ex:Small_Building rdf:type bot:Building ;
   <summary>Answer:</summary>
   
   ```rdf
-    @prefix ex: <http://bim2twin.eu/training/simpleBuilding/> .
+    @prefix ex: <http://bim2twin.eu/training/simpleBuilding/<yourname>/> .
     @prefix bot: <https://w3id.org/bot#> .
     @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -190,7 +198,7 @@ Complete the query body by replacing (not necessary in Postman if done previousl
 ```json
 [
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_1",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_1",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
@@ -213,61 +221,61 @@ Complete the query body by replacing (not necessary in Postman if done previousl
 ```json
 [
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Room_A_1",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_1",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Room_A_2",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_2",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Room_B_1",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_B_1",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Room_B_2",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_B_2",
 	"_classes": ["https://w3id.org/bot#Space"]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Storey_1",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_1",
 	"_classes": ["https://w3id.org/bot#Storey"],
 	"_outE": [
 	  {
 	    "_label": "https://w3id.org/bot#hasSpace",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Room_A_1"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_1"
 	  },
 	  {
 	    "_label": "https://w3id.org/bot#hasSpace",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Room_B_1"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_B_1"
 	  }
 	]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Storey_2",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_2",
 	"_classes": ["https://w3id.org/bot#Storey"],
 	"_outE": [
 	  {
 	    "_label": "https://w3id.org/bot#hasSpace",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Room_A_2"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_A_2"
 	  },
 	  {
 	    "_label": "https://w3id.org/bot#hasSpace",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Room_B_2"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Room_B_2"
 	  },
 	  {
 		"_label": "http://orange-labs.fr/fog/ont/building.owl#isAbove",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_1",
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_1",
 		"bim2twin:dismantlingTime": 90
 	  }
 	]
   },
   {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Storey_3",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_3",
     "_classes": ["https://w3id.org/bot#Storey"],
 	"_outE": [
 	  {
 		"_label": "http://orange-labs.fr/fog/ont/building.owl#isAbove",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_2",
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_2",
 		"bim2twin:dismantlingTime": 102
 	  }
 	]
@@ -278,15 +286,15 @@ Complete the query body by replacing (not necessary in Postman if done previousl
 	"_outE": [
 	  {
 	    "_label": "https://w3id.org/bot#hasStorey",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_1"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_1"
 	  },
 	  {
 	    "_label": "https://w3id.org/bot#hasStorey",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_2"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_2"
 	  },
 	  {
 	    "_label": "https://w3id.org/bot#hasStorey",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_3"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/<yourname>/Storey_3"
 	  }
 	]
   }
@@ -306,6 +314,8 @@ Avatar can be injected one by one:
 Inject several avatars at once:
 > /batch/avatars/
 
+#### Postman
+	
 ## Queries
 
 ### Use the wizard
