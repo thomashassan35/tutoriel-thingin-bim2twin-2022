@@ -466,7 +466,9 @@ With swagger use:
 
 With postman use:
 >  find AGGREGATE
-    
+
+For more information on aggregation queries see the [wiki](https://wiki.thinginthefuture.com/public/aggregation).
+	
 ### Geographic queries
 
 The following queries require avatars to have geographic coordinates.
@@ -516,7 +518,9 @@ Given the geographic position of an avatar, find avatars nearby a radius of 100 
   "view": {}
 }
 ```
-    
+
+For more info one query see the wiki for [RDF](https://wiki.thinginthefuture.com/public/Avatar_tutorial) and for [JSON](https://wiki.thinginthefuture.com/public/Manipulate_Avatars).
+
 ### Blob
     
 Thing'In the future offers an array of more advanced features for avatars such as ACLs and Security Groups, graph traversal and paths, geometry or unit conversion, avatar clusters, etc. We cannot view every functionnality in one session, but you can have a look at the Wiki, as well as the complete swagger. 
@@ -571,4 +575,6 @@ With postman, use
     
 ## End of the session
 That's it for this hands-on session, feel free to ask any question :)
+	
+Find complementary information on the [wiki](https://wiki.thinginthefuture.com/).
 
