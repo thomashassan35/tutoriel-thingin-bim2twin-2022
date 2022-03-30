@@ -139,6 +139,7 @@ Complete the query body by replacing (not necessary in Postman if done previousl
 <yourname>
 ``` 
 
+In the example bellow the line "@prefix ex: <http://bim2twin.eu/training/simpleBuilding/<yourname>/>", refers to the domain in which your avatars will be stored.
 
 ```rdf
 @prefix ex: <http://bim2twin.eu/training/simpleBuilding/<yourname>/> .
@@ -194,6 +195,7 @@ Complete the query body by replacing (not necessary in Postman if done previousl
 <yourname>
 ``` 
 
+In JSON you do not have to set the name of the domain, it will be directly extracted form the avatars' Iri.
 
 ```json
 [
@@ -315,6 +317,17 @@ Inject several avatars at once:
 > /batch/avatars/
 
 #### Postman
+
+Under the folder:
+> /Avatars injection
+
+To inject avatars one by one in JSON:
+> singlePostAvatar JSON
+
+To inject several avatars at once:
+> batchPostAvatars JSON
+	
+> batchPostAvatars TURTLE
 	
 ## Queries
 
@@ -337,6 +350,15 @@ To find avatars:
 > /avatars/find/
 
 #### Postman collection
+
+In the postman collection under:
+> /Avatar requests
+
+To retrieve avatars in JSON format:
+> find as JSON
+
+To retrieve avatars in TURTLE format:
+> find as TURTLE
 
 ### Query your own dataset
 
@@ -371,7 +393,7 @@ Example to find storeys of a given building, where "http://www.bim2twin.com/trai
   "view": {}
 }
 ```
-
+	
 <details>
   <summary>Answer:</summary>
   
@@ -379,8 +401,25 @@ Example to find storeys of a given building, where "http://www.bim2twin.com/trai
 {
   "query": [
     {
-      "$domain": "http://www.bim2twin.com/training/ac20/",
-      "$iri": "http://www.bim2twin.com/training/ac20/ifc-2eyxpyOx95m90jmsXLOuR0",
+      "$domain": "http://bim2twin.eu/training/ac20/",
+      "$iri": "http://bim2twin.eu/training/ac20/ifc-2eyxpyOx95m90jmsXLOuR0",
+      "->http://elite.polito.it/ontologies/dogont.owl#contains": "room"
+    },
+    {
+      "$alias": "room",
+      "$classes": "https://w3id.org/bot#Space"
+    }
+  ],
+  "view": {}
+}
+```
+Bellow an example to find rooms contained in storeys, without specifying the storey
+```json
+	{
+  "query": [
+    {
+      "$domain": "http://bim2twin.eu/training/ac20/",
+      "$classes": "https://w3id.org/bot#Storey",
       "->http://elite.polito.it/ontologies/dogont.owl#contains": "room"
     },
     {
@@ -401,7 +440,7 @@ First create the storey:
 
 ```json
 {
-    "_iri": "http://bim2twin.eu/training/simpleBuilding/Storey_3",
+    "_iri": "http://bim2twin.eu/training/simpleBuilding/Storey_4",
     "_classes": ["https://w3id.org/bot#Storey"]
 }
  ```
@@ -410,7 +449,7 @@ Swagger:
 > /avatars/
 
 In Postman :
-> singlePostAvatar JSON
+> /Avatars injection/singlePostAvatar JSON
     
 Add the storey to the building :
 
@@ -429,7 +468,7 @@ or in Postman:
 	"_iri": "http://bim2twin.eu/training/simpleBuilding/Small_Building",
 	"_outE": [{
 		"_label": "https://w3id.org/bot#hasStorey",
-		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_3"
+		"_targetIRI": "http://bim2twin.eu/training/simpleBuilding/Storey_4"
 	}
     ]
 }
@@ -438,10 +477,8 @@ or in Postman:
 
 ### Aggregation query
 
-Example of a query to dismantle a building, where relation of type "http://orange-labs.fr/fog/ont/building.owl#isAbove", have a property of time express in minutes. The query make the sum of the value of the property of type "bim2twin:dismantlingTime".
+Example of a query to dismantle a building, where relation of type "http://orange-labs.fr/fog/ont/building.owl#isAbove", have a property of time expressed in minutes. The query makes the sum of the value of the property of type "bim2twin:dismantlingTime".
     
-
-query not working not enough rights
 ```json
 {
   "query": [
@@ -465,10 +502,11 @@ With swagger use:
 > /avatars/findAggregate/
 
 With postman use:
->  find AGGREGATE
+>  /Avatars requests/find AGGREGATE
 
 For more information on aggregation queries see the [wiki](https://wiki.thinginthefuture.com/public/aggregation).
-	
+
+  
 ### Geographic queries
 
 The following queries require avatars to have geographic coordinates.
